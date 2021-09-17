@@ -1,0 +1,13 @@
+{
+  "name": "Plugin: Spotify",
+  "permissions": {
+    "network": "Needs to access the Spotify API"
+  },
+  "options": [
+    {
+      "title": "Spotify",
+      "type": "section"
+    }
+  ],
+  "deferred": ["tile.lua"]
+}
