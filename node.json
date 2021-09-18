@@ -8,7 +8,6 @@
       "title": "Spotify",
       "type": "section"
     },
-
     {
       "title": "Accounts",
       "name": "accounts",
@@ -24,6 +23,11 @@
         },
 
         {
+          "title": "Presentation",
+          "type": "section"
+        },
+
+        {
           "title": "Font",
           "ui_width": 6,
           "name": "font",
@@ -32,34 +36,33 @@
           "default": "circular-book.ttf"
         },
         {
-          "title": "Font color",
-          "ui_width": 6,
-          "name": "font_color",
-          "type": "color",
-          "default": [0, 0, 0, 1]
-        },
-        {
-          "title": "Theme color",
-          "ui_width": 6,
-          "name": "theme_color",
-          "type": "color",
-          "default": [0.1, 0.62, 0.28, 1]
-        },
-
-        {
-          "title": "Background color",
-          "ui_width": 6,
-          "name": "background_color",
-          "type": "color",
-          "default": [1, 1, 1, 1]
-        },
-        {
           "title": "Fallback Asset",
           "ui_width": 6,
           "name": "fallback_asset",
           "type": "resource",
           "valid": ["image"],
           "default": "node.png"
+        },
+        {
+          "title": "Theme color",
+          "ui_width": 3,
+          "name": "theme_color",
+          "type": "color",
+          "default": [0.1, 0.62, 0.28, 1]
+        },
+        {
+          "title": "Font color",
+          "ui_width": 3,
+          "name": "font_color",
+          "type": "color",
+          "default": [0, 0, 0, 1]
+        },
+        {
+          "title": "Background color",
+          "ui_width": 3,
+          "name": "background_color",
+          "type": "color",
+          "default": [1, 1, 1, 1]
         }
       ]
     },
@@ -67,6 +70,20 @@
     {
       "title": "Authentication",
       "type": "section"
+    },
+    {
+      "title": "Client ID",
+      "ui_width": 6,
+      "name": "client_id",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "title": "Client Secret",
+      "ui_width": 6,
+      "name": "client_secret",
+      "type": "string",
+      "default": ""
     },
     {
       "title": "Refresh Token",
