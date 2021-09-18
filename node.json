@@ -67,7 +67,7 @@
         {
           "title": "Background color",
           "ui_width": 3,
-          "name": "background_color",
+          "name": "bg_color",
           "type": "color",
           "default": [1, 1, 1, 1]
         }

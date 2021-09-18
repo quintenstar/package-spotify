@@ -43,7 +43,7 @@ def md5(text):
 
 def cache_image(url, ext="jpg"):
     cache_name = "cache-image-%s.%s" % (md5(url), ext)
-    print("caching %s" % url, file=sys.stderr)
+    print("caching %s" % url)
     if not os.path.exists(cache_name):
         try:
             with open(cache_name, "wb") as f:

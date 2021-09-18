@@ -12,17 +12,10 @@ except ImportError:
     print("Import error on hosted node.write_json")
 
     class Config(object):
-        # poll_interval = 60
-        # events_max = 5
+        pass
 
-        # access_token = ""
-        # pages = [
-        #     {"name": "1", "id": ""},
-        #     {"name": "2", "id": ""},
-        # ]
-
-        def restart_on_update(self):
-            pass
+    def restart_on_update(self):
+        pass
 
     # config = Config()
 
@@ -41,7 +34,7 @@ def main():
     """Wait till the configuration is non-empty.
     Hosted will restart this process when the configuration changes. """
     config.restart_on_update()
-    print("Spotify config updated", file=sys.stderr)
+    print("Spotify config updated")
 
     while True:
         try:
@@ -50,6 +43,8 @@ def main():
             access_token = refresh_access_token(
                 config.client_id, config.client_secret, config.refresh_token
             )
+
+            print("Spotify access_token: " + access_token)
 
             for account in config.accounts:
                 data = spotify_data(access_token, account["market"])

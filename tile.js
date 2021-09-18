@@ -4,7 +4,7 @@ var config = {
       <div>
         <h4>Spotify Plugin</h4>
           <div class='col-xs-9'>
-            <input placeholder="Account name" v-model="account_name" class='form-control'/>
+            <input placeholder="Account name" v-model="account_name_tile" class='form-control'/>
           </div>
 
 
@@ -15,7 +15,7 @@ var config = {
     advanced: false,
   }),
   computed: {
-    account_name: ChildTile.config_value("account_name_tile", ""),
+    account_name_tile: ChildTile.config_value("account_name_tile", ""),
   },
   methods: {
     onClick: function (evt) {

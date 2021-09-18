@@ -43,3 +43,7 @@ hosted.py / hosted.js
     Part of the info-beamer hosted SDK
     BSD2
     https://github.com/info-beamer/package-sdk
+
+circular-black.tff
+circular-bold.tff
+circular-book.tff
