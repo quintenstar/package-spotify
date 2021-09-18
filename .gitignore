@@ -311,4 +311,6 @@ TODO.md
 
 design/*
 
+cache-*
+
 *.test
