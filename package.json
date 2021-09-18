@@ -1,5 +1,5 @@
 {
-  "name": "Spotify",
+  "name": "spotify",
   "author": "Quinten Star",
   "desc": "Spotify plugin package to display current song playing. Works standalone and as plugin for the Scheduled Player package.",
   "repository": "https://github.com/quintenstar/package-spotify",
@@ -11,7 +11,7 @@
   ],
   "offline": {
     "support": "no",
-    "info": "Needs to access the Spotify API to keep the events upt-to-date."
+    "info": "Needs to access the Spotify API to keep the events up to date."
   },
   "nesting": {
     "parents": [
