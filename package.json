@@ -1,5 +1,5 @@
 {
-  "name": "spotify",
+  "name": "Spotify",
   "author": "Quinten Star",
   "desc": "Spotify plugin package to display current song playing. Works standalone and as plugin for the Scheduled Player package.",
   "repository": "https://github.com/quintenstar/package-spotify",
