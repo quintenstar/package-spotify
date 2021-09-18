@@ -16,10 +16,17 @@
       "items": [
         {
           "title": "Name",
-          "ui_width": 12,
-          "name": "name",
+          "ui_width": 6,
+          "name": "account_name",
           "type": "string",
-          "default": ""
+          "default": "Name"
+        },
+        {
+          "title": "Market",
+          "ui_width": 6,
+          "name": "market",
+          "type": "string",
+          "default": "US"
         },
 
         {

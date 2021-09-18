@@ -8,12 +8,6 @@ import traceback
 
 from PIL import Image
 
-# try:
-#     from StringIO import StringIO  # for Python 2
-# except ImportError:
-#     from six import StringIO  # for Python 3
-
-
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -29,14 +23,17 @@ except ImportError:
 
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 PLAYBACK_STATE_ENDPOINT = "https://api.spotify.com/v1/me/player"
+IMAGE_SIZES = ["640", "300", "64"]
 
 
 def convert(data):
     converted = data
 
-    cover_image = data["item"]["album"]["images"][0]["url"]
+    for i, image_size in enumerate(IMAGE_SIZES):
+        images = data["item"]["album"]["images"]
+        cover_image = images[i]["url"]
 
-    data["cover_image"] = cache_image(cover_image)
+        converted["cover_image_{}".format(image_size)] = cache_image(cover_image)
     return converted
 
 
@@ -57,7 +54,7 @@ def cache_image(url, ext="jpg"):
     return cache_name
 
 
-def cleanup(max_age=30 * 60):
+def cleanup(max_age=15 * 60):
     now = time.time()
     for filename in os.listdir("."):
         if not filename.startswith("cache-"):
@@ -75,7 +72,7 @@ def save_playback_state(data):
 
 
 def playback_state(access_token, market):
-    # TODO if request unsuccesfull
+    # TODO if request unsuccessfull
     # status 204 no playback
     return requests.get(
         PLAYBACK_STATE_ENDPOINT,
@@ -85,7 +82,7 @@ def playback_state(access_token, market):
 
 
 def refresh_access_token(client_id, client_secret, refresh_token):
-    # TODO if request unsuccesfull
+    # TODO if request unsuccessfull
     return requests.post(
         TOKEN_URL,
         auth=HTTPBasicAuth(client_id, client_secret),
@@ -106,14 +103,13 @@ if __name__ == "__main__":
     SPOTIFY_CLIENT_ID = env_config["SPOTIFY_CLIENT_ID"]
     SPOTIFY_CLIENT_SECRET = env_config["SPOTIFY_CLIENT_SECRET"]
 
-    # CURRENTLY_PLAYING_ENDPOINT = (
-    #     "https://api.spotify.com/v1/me/player/currently-playing"
-    # )
-
     SPOTIFY_ACCESS_TOKEN = env_config["SPOTIFY_ACCESS_TOKEN"]
     SPOTIFY_REFRESH_TOKEN = env_config["SPOTIFY_REFRESH_TOKEN"]
     MARKET = "NL"
 
+    # CURRENTLY_PLAYING_ENDPOINT = (
+    #     "https://api.spotify.com/v1/me/player/currently-playing"
+    # )
     # data = requests.get(
     #     CURRENTLY_PLAYING_ENDPOINT,
     #     headers={"Authorization": "Bearer " + SPOTIFY_ACCESS_TOKEN},

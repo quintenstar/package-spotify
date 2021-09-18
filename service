@@ -1,10 +1,65 @@
 #!/usr/bin/python2.7
+import sys
+import time
+import traceback
 
 import json
 
 
+try:
+    from hosted import node, config
+except ImportError:
+    print("Import error on hosted node.write_json")
+
+    class Config(object):
+        # poll_interval = 60
+        # events_max = 5
+
+        # access_token = ""
+        # pages = [
+        #     {"name": "1", "id": ""},
+        #     {"name": "2", "id": ""},
+        # ]
+
+        def restart_on_update(self):
+            pass
+
+    # config = Config()
+
+    class node(object):
+        @staticmethod
+        def write_json(file, text):
+            print(json.dumps(text, indent=4))
+            with open("spotify.json.test", "w") as fp:
+                json.dump(text, fp, indent=2)
+
+
+from spotify import cleanup, refresh_access_token, spotify_data
+
+
 def main():
-    pass
+    """Wait till the configuration is non-empty.
+    Hosted will restart this process when the configuration changes. """
+    config.restart_on_update()
+    print("Spotify config updated", file=sys.stderr)
+
+    while True:
+        try:
+            cleanup()
+
+            access_token = refresh_access_token(
+                config.client_id, config.client_secret, config.refresh_token
+            )
+
+            for account in config.accounts:
+                data = spotify_data(access_token, account["market"])
+
+            node.write_json("spotify.json", data)
+        except:
+            traceback.print_exc()
+            time.sleep(60)  # config.poll_interval)
+        else:
+            time.sleep(60)  # config.poll_interval)
 
 
 if __name__ == "__main__":
