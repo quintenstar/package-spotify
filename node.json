@@ -7,6 +7,73 @@
     {
       "title": "Spotify",
       "type": "section"
+    },
+
+    {
+      "title": "Accounts",
+      "name": "accounts",
+      "type": "list",
+      "itemname": "Account",
+      "items": [
+        {
+          "title": "Name",
+          "ui_width": 12,
+          "name": "name",
+          "type": "string",
+          "default": ""
+        },
+
+        {
+          "title": "Font",
+          "ui_width": 6,
+          "name": "font",
+          "type": "font",
+          "doc_link": true,
+          "default": "circular-book.ttf"
+        },
+        {
+          "title": "Font color",
+          "ui_width": 6,
+          "name": "font_color",
+          "type": "color",
+          "default": [0, 0, 0, 1]
+        },
+        {
+          "title": "Theme color",
+          "ui_width": 6,
+          "name": "theme_color",
+          "type": "color",
+          "default": [0.1, 0.62, 0.28, 1]
+        },
+
+        {
+          "title": "Background color",
+          "ui_width": 6,
+          "name": "background_color",
+          "type": "color",
+          "default": [1, 1, 1, 1]
+        },
+        {
+          "title": "Fallback Asset",
+          "ui_width": 6,
+          "name": "fallback_asset",
+          "type": "resource",
+          "valid": ["image"],
+          "default": "node.png"
+        }
+      ]
+    },
+
+    {
+      "title": "Authentication",
+      "type": "section"
+    },
+    {
+      "title": "Refresh Token",
+      "ui_width": 6,
+      "name": "refresh_token",
+      "type": "string",
+      "default": ""
     }
   ],
   "deferred": ["tile.lua"]
