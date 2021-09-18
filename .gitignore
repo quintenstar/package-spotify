@@ -308,3 +308,7 @@ dmypy.json
 *.code-workspace
 
 TODO.md
+
+design/*
+
+*.test
