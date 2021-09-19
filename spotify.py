@@ -12,7 +12,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 try:
-    from hosted import node
+    from hosted import node, config
 except ImportError:
 
     class node(object):
@@ -23,18 +23,41 @@ except ImportError:
 
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 PLAYBACK_STATE_ENDPOINT = "https://api.spotify.com/v1/me/player"
-IMAGE_SIZES = ["640", "300", "64"]
+IMAGE_SIZES = [640, 300, 64]
 
 
 def convert(data):
     converted = data
 
-    for i, image_size in enumerate(IMAGE_SIZES):
-        images = data["item"]["album"]["images"]
-        cover_image = images[i]["url"]
+    try:
+        for i, image_size in enumerate(IMAGE_SIZES):
+            images = data["item"]["album"]["images"]
+            cover_image = images[i]["url"]
 
-        converted["cover_image_{}".format(image_size)] = cache_image(cover_image)
+            converted["cover_image_{}".format(image_size)] = cache_image(cover_image)
+        # Use smallest image to get average color
+        print(min(IMAGE_SIZES))
+        converted["cover_image_color"] = artwork_color(
+            converted["cover_image_{}".format(min(IMAGE_SIZES))]
+        )
+    except:
+        pass
+
     return converted
+
+
+from colorthief import ColorThief
+
+
+def artwork_color(file):
+    # Get artwork color to use as background color
+    print(file)
+    try:
+        image = ColorThief(file)
+        artwork_color = image.get_color(quality=1)
+        return artwork_color
+    except:
+        return (0, 0, 0)  # black
 
 
 def md5(text):

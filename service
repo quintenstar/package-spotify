@@ -30,31 +30,69 @@ except ImportError:
 from spotify import cleanup, refresh_access_token, spotify_data
 
 
+class AccessTokenError(Exception):
+    pass
+
+
+class AccessTokenStillValid(Exception):
+    pass
+
+
+def _access_token(access_token_created_at, expires_in=3000):
+    now = time.time()
+
+    # access_token is still valid
+    age = now - access_token_created_at
+    if age <= expires_in:
+        raise AccessTokenStillValid
+
+    # new access_token is needed
+    try:
+        access_token = refresh_access_token(
+            config.client_id, config.client_secret, config.refresh_token
+        )
+        access_token_created_at = time.time()
+    except Exception as e:
+        raise AccessTokenError("A new access token could not be", e)
+    return access_token, access_token_created_at  # config.poll_interval
+
+
+POLL_INTERVAL = 5
+
+
 def main():
     """Wait till the configuration is non-empty.
     Hosted will restart this process when the configuration changes. """
     config.restart_on_update()
     print("Spotify config updated")
 
+    access_token_created_at = 0
+
+    # access_tokens = [{} for account in range(2)]
     while True:
         try:
             cleanup()
 
-            access_token = refresh_access_token(
-                config.client_id, config.client_secret, config.refresh_token
-            )
-
-            print("Spotify access_token: " + access_token)
-
             for account in config.accounts:
+                try:
+                    access_token, access_token_created_at = _access_token(
+                        access_token_created_at
+                    )
+                except AccessTokenError:
+                    pass  # other account might still work
+                except AccessTokenStillValid:
+                    pass
+
+                # print >>sys.stderr, "access token {}".format(access_token)
                 data = spotify_data(access_token, account["market"])
 
             node.write_json("spotify.json", data)
+        except AccessTokenError:
+            pass  # just retry
         except:
             traceback.print_exc()
-            time.sleep(60)  # config.poll_interval)
-        else:
-            time.sleep(60)  # config.poll_interval)
+        finally:
+            time.sleep(POLL_INTERVAL)
 
 
 if __name__ == "__main__":

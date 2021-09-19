@@ -314,3 +314,5 @@ design/*
 cache-*
 
 *.test
+
+/dependencies

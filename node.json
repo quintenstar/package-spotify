@@ -28,6 +28,13 @@
           "type": "string",
           "default": "US"
         },
+        {
+          "title": "Refresh Token",
+          "ui_width": 12,
+          "name": "refresh_token",
+          "type": "string",
+          "default": "NOT IMPLEMENTED. Use refresh token under authentication."
+        },
 
         {
           "title": "Presentation",
@@ -40,7 +47,7 @@
           "name": "font",
           "type": "font",
           "doc_link": true,
-          "default": "circular-book.ttf"
+          "default": "circular-bold.ttf"
         },
         {
           "title": "Fallback Asset",
@@ -70,6 +77,13 @@
           "name": "bg_color",
           "type": "color",
           "default": [1, 1, 1, 1]
+        },
+        {
+          "title": "Use Artwork color",
+          "ui_width": 3,
+          "name": "use_artwork_color",
+          "type": "boolean",
+          "default": true
         }
       ]
     },

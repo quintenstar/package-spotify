@@ -27,6 +27,7 @@ Unless otherwise (see below) noted:
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package.png
+node.png
     
 
 default-font.ttf
@@ -47,3 +48,11 @@ hosted.py / hosted.js
 circular-black.tff
 circular-bold.tff
 circular-book.tff
+
+colorthief.py
+    https://github.com/fengsp/color-thief-py/blob/master/colorthief.py
+
+Spotify_Logo_RGB_White
+Spotify_Logo_RGB_Black
+Spotify_Logo_RGB_Green
+
