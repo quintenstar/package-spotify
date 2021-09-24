@@ -26,14 +26,14 @@
           "ui_width": 6,
           "name": "market",
           "type": "string",
-          "default": "US"
+          "default": "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2"
         },
         {
           "title": "Refresh Token",
           "ui_width": 12,
           "name": "refresh_token",
           "type": "string",
-          "default": "NOT IMPLEMENTED. Use refresh token under authentication."
+          "default": "Run app.py, see GitHub https://github.com/quintenstar/package-spotify"
         },
 
         {
@@ -97,21 +97,14 @@
       "ui_width": 6,
       "name": "client_id",
       "type": "string",
-      "default": ""
+      "default": "See https://developer.spotify.com/dashboard/"
     },
     {
       "title": "Client Secret",
       "ui_width": 6,
       "name": "client_secret",
       "type": "string",
-      "default": ""
-    },
-    {
-      "title": "Refresh Token",
-      "ui_width": 6,
-      "name": "refresh_token",
-      "type": "string",
-      "default": ""
+      "default": "See https://developer.spotify.com/dashboard/"
     }
   ],
   "deferred": ["tile.lua"]

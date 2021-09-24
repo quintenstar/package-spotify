@@ -88,7 +88,6 @@ def cleanup(max_age=15 * 60):
 
 
 def refresh_access_token(client_id, client_secret, refresh_token):
-    # TODO if request unsuccessfull
     response = requests.post(
         TOKEN_URL,
         auth=HTTPBasicAuth(client_id, client_secret),
@@ -100,8 +99,6 @@ def refresh_access_token(client_id, client_secret, refresh_token):
 
 
 def _playback_state(access_token, market):
-    # TODO if request unsuccessfull
-    # status 204 no playback
     return requests.get(
         PLAYBACK_STATE_ENDPOINT,
         headers={"Authorization": "Bearer " + access_token},
@@ -112,11 +109,8 @@ def _playback_state(access_token, market):
 def spotify_data(access_token, market):
     response = _playback_state(access_token, market)
     response.raise_for_status()
-
-    try:
-        return _convert(response.json())
-    except:
-        raise
+    
+    return _convert(response.json())
 
 
 if __name__ == "__main__":
@@ -129,30 +123,16 @@ if __name__ == "__main__":
     SPOTIFY_CLIENT_ID = env_config["SPOTIFY_CLIENT_ID"]
     SPOTIFY_CLIENT_SECRET = env_config["SPOTIFY_CLIENT_SECRET"]
 
-    # SPOTIFY_ACCESS_TOKEN = env_config["SPOTIFY_ACCESS_TOKEN"]
     SPOTIFY_REFRESH_TOKEN = env_config["SPOTIFY_REFRESH_TOKEN"]
-    MARKET = "NL"
-
-    # CURRENTLY_PLAYING_ENDPOINT = (
-    #     "https://api.spotify.com/v1/me/player/currently-playing"
-    # )
-    # data = requests.get(
-    #     CURRENTLY_PLAYING_ENDPOINT,
-    #     headers={"Authorization": "Bearer " + SPOTIFY_ACCESS_TOKEN},
-    #     params={"market": MARKET},
-    # )
-    # with open("spotify_current_track.json.test", "w") as fp:
-    #     json.dump(data.json(), fp, indent=2)
+    MARKET = env_config["MARKET"]
 
     SPOTIFY_ACCESS_TOKEN = refresh_access_token(
         SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN
     )
-
     set_key(".env", "SPOTIFY_ACCESS_TOKEN", SPOTIFY_ACCESS_TOKEN)
 
+    cleanup()
     data = spotify_data(SPOTIFY_ACCESS_TOKEN, MARKET)
 
     with open("spotify_playback_state.json.test", "w") as fp:
         json.dump(data, fp, indent=2)
-
-    cleanup()
