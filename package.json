@@ -15,7 +15,6 @@
   },
   "nesting": {
     "parents": [
-      "top-level",
       "scheduled-plugin"
     ],
     "childs": []
