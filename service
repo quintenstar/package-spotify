@@ -1,25 +1,24 @@
 #!/usr/bin/python2.7
+import json
 import sys
 import time
 import traceback
-
-import json
-
+import functools
+from spotify import cleanup, refresh_access_token, spotify_data
 
 try:
-    from hosted import node, config
+    from hosted import config, node
 except ImportError:
     print("Import error on hosted node.write_json")
+    from hosted import Configuration, Node
 
-    class Config(object):
-        pass
+    class Config(Configuration):
+        def __init__(self):
+            pass
 
-    def restart_on_update(self):
-        pass
+    config = Config()
 
-    # config = Config()
-
-    class node(object):
+    class node(Node):
         @staticmethod
         def write_json(file, text):
             print(json.dumps(text, indent=4))
@@ -27,68 +26,81 @@ except ImportError:
                 json.dump(text, fp, indent=2)
 
 
-from spotify import cleanup, refresh_access_token, spotify_data
-
-
-class AccessTokenError(Exception):
-    pass
-
-
-class AccessTokenStillValid(Exception):
-    pass
-
-
-def _access_token(access_token_created_at, expires_in=3000):
-    now = time.time()
-
-    # access_token is still valid
-    age = now - access_token_created_at
-    if age <= expires_in:
-        raise AccessTokenStillValid
-
-    # new access_token is needed
-    try:
-        access_token = refresh_access_token(
-            config.client_id, config.client_secret, config.refresh_token
-        )
-        access_token_created_at = time.time()
-    except Exception as e:
-        raise AccessTokenError("A new access token could not be", e)
-    return access_token, access_token_created_at  # config.poll_interval
-
-
 POLL_INTERVAL = 5
 
 
+class PollingException(Exception):
+    pass
+
+
+class Poll:
+    def __init__(self, func, polling_rate=60, max_polling_rate=1000):
+        functools.update_wrapper(self, func)
+        self.func = func
+        self.data = None
+        self.initial_polling_rate = polling_rate
+        self.polling_rate = polling_rate
+        self.max_polling_rate = max_polling_rate
+        self.last_result = 0
+
+    def __call__(self, *args, **kwargs):
+        now = time.time()
+        if now - self.last_result < self.polling_rate:  # too early
+            return self.data
+
+        try:
+            self.data = self.func(*args, **kwargs)
+        except:
+            self.polling_rate = max(self.polling_rate * 2, self.max_polling_rate)
+            raise PollingException
+        else:
+            self.last_result = time.time()
+            self.polling_rate = self.initial_polling_rate
+        finally:
+            return self.data
+
+
 def main():
-    """Wait till the configuration is non-empty.
-    Hosted will restart this process when the configuration changes. """
     config.restart_on_update()
-    print("Spotify config updated")
+    print("SPOTIFY: config updated")
 
-    access_token_created_at = 0
+    poll_cleanup = Poll(cleanup, polling_rate=600)
 
-    # access_tokens = [{} for account in range(2)]
+    accounts = [
+        {
+            "account_name": account["account_name"],
+            "refresh_token": account["refresh_token"],
+            "access_token": "",
+            "market": account["market"],
+            "poll_access_token": Poll(refresh_access_token, polling_rate=3000),
+            "poll_spotify_data": Poll(
+                spotify_data, polling_rate=POLL_INTERVAL, max_polling_rate=180
+            ),
+        }
+        for account in config.accounts
+    ]
+
+    data = {account["account_name"]: "" for account in config.accounts}
+
     while True:
         try:
-            cleanup()
+            poll_cleanup()
 
-            for account in config.accounts:
+            for account in accounts:
                 try:
-                    access_token, access_token_created_at = _access_token(
-                        access_token_created_at
+                    account["access_token"] = account["poll_access_token"](
+                        config.client_id, config.client_secret, account["refresh_token"]
                     )
-                except AccessTokenError:
-                    pass  # other account might still work
-                except AccessTokenStillValid:
+
+                    data[account["account_name"]] = account["poll_spotify_data"](
+                        account["access_token"], account["market"]
+                    )
+                except PollingException:
                     pass
 
-                # print >>sys.stderr, "access token {}".format(access_token)
-                data = spotify_data(access_token, account["market"])
+            print("SPOTIFY", data)
 
             node.write_json("spotify.json", data)
-        except AccessTokenError:
-            pass  # just retry
         except:
             traceback.print_exc()
         finally:
