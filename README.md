@@ -4,7 +4,13 @@
 
 ## Installation
 
-Create a [Spotify developer account and a new app](https://developer.spotify.com/dashboard). Get both the Client ID and Client Secret for the next step.
+### Spotify developer account
+
+- Create a [Spotify developer account and a new app](https://developer.spotify.com/dashboard).
+- Get both the Client ID and Client Secret for the next step.
+- Add `http://localhost:5000/callback` and/or `http://127.0.0.1:5000/callback` to the redirect URIs.
+
+### Run app.py
 
 Create a .env file in the project root folder and fill in the Client ID, Client Secret and [market](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
 
@@ -14,9 +20,9 @@ Run in root project folder and login for each of your Spotify accounts to genera
 python -m flask run
 ```
 
-On the info-beamer website,
+### Info-beamer website
 
-- [Add the Spotify package to info-beamer.](https://info-beamer.com/use?url=http://github.com/quintenstar/package-spotify.git)
+- Add the Spotify package to info-beamer]
 - Add it as a plugin to the [Scheduled Player](https://info-beamer.com/package/7583l) package.
 
 https://info-beamer.com/package/7583
@@ -26,6 +32,8 @@ https://info-beamer.com/package/7583
 - On a Scheduled Player page add the Spotify Plugin and give it the same name (under the tile options).
 
 ## Settings
+
+![Example](screenshot-1.jpg)
 
 ## Changelog
 
