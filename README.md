@@ -2,6 +2,15 @@
 
 [![Import](https://cdn.infobeamer.com/s/img/import.png)](https://info-beamer.com/use?url=http://github.com/quintenstar/package-spotify.git)
 
+This package allows you to display the current playing Spotify track.
+
+Notable features:
+
+- Works with multiple accounts within the same info-beamer setup.
+- Dynamic artwork background color.
+- Fullscreen and widget mode.
+- Currently, it only works as a subpackage of the Scheduled Player package. But this can be dropped in the future.
+
 ## Installation
 
 ### Spotify developer account
