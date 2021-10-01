@@ -44,6 +44,22 @@ https://info-beamer.com/package/7583
 
 ![Example](screenshot-1.jpg)
 
+Above an example of the display of 2 separate Spotify accounts. Both using the artwork background color option. One the normal (fullscreen) mode and the other the widget mode, which is optimized for smaller screen space.
+
+![Example](screenshot-2.jpg)
+
+You can add as many accounts as you would like. The limiting factor will be mostly the capabilities of your Raspberry Pi or Spotify developer mode API quotas.
+
+At the moment the `theme color` and `fallback asset` options are not being used.
+
+Setting the `use artwork color` option will dynamically set the background color based on the dominant track artwork color.
+
+![Example](screenshot-3.jpg)
+
+Make sure the `account name` is matching with the general package settings.
+
+When selecting the widget option if you don't tick the `widget use artwork color` option it defaults back to the `background color` option set in the general package settings.
+
 ## Changelog
 
 ### Version 0.1.0
