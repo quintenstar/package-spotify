@@ -2,7 +2,7 @@ Unless otherwise (see below) noted:
 
     BSD 2-Clause License
 
-    Copyright (c) 2021 Quinten Star <10272558+quintenstar@users.noreply.github.com>
+    Copyright (c) 2021 Quinten Star
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,6 @@ Unless otherwise (see below) noted:
     OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package.png
-node.png
-    
-
 default-font.ttf
     Originally called OpenSansEmoji.ttf
     Apache 2.0 licensed
@@ -40,10 +36,15 @@ default-font-bold.ttf
     Apache 2.0 licensed
     https://fonts.google.com/specimen/Open+Sans
 
-hosted.py / hosted.js
+hosted.py / hosted.js / hosted.lua
     Part of the info-beamer hosted SDK
     BSD2
     https://github.com/info-beamer/package-sdk
+
+spotify.py / service.js
+    Parts of the files based on the info-beamer scheduled player Twitter Plugin
+    BSD2
+    https://github.com/info-beamer/package-scheduled-player
 
 circular-black.tff
 circular-bold.tff
@@ -52,7 +53,9 @@ circular-book.tff
 colorthief.py
     https://github.com/fengsp/color-thief-py/blob/master/colorthief.py
 
+package.png
+node.png
 Spotify_Logo_RGB_White
 Spotify_Logo_RGB_Black
 Spotify_Logo_RGB_Green
-
+    Spotify
