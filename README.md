@@ -1,6 +1,6 @@
 # Spotify info-beamer package
 
-[![Import](https://cdn.infobeamer.com/s/img/import.png)](https://info-beamer.com/use?url=http://github.com/quintenstar/package-spotify.git)
+[![Import](https://cdn.infobeamer.com/s/img/import.png)](https://info-beamer.com/use?url=https://github.com/quintenstar/package-spotify.git)
 
 This package allows you to display the current playing Spotify track.
 
