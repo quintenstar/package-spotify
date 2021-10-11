@@ -4,6 +4,7 @@ import sys
 import time
 import traceback
 import functools
+
 from spotify import cleanup, refresh_access_token, spotify_data
 
 try:
@@ -72,7 +73,9 @@ def main():
             "refresh_token": account["refresh_token"],
             "access_token": "",
             "market": account["market"],
-            "poll_access_token": Poll(refresh_access_token, polling_rate=300, max_polling_rate=900),
+            "poll_access_token": Poll(
+                refresh_access_token, polling_rate=300, max_polling_rate=900
+            ),
             "poll_spotify_data": Poll(
                 spotify_data, polling_rate=POLL_INTERVAL, max_polling_rate=180
             ),
