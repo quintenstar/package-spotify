@@ -28,14 +28,15 @@
           "type": "string",
           "default": "https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2"
         },
-        {
-          "title": "Refresh Token",
-          "ui_width": 12,
-          "name": "refresh_token",
-          "type": "string",
-          "default": "Run app.py, see GitHub https://github.com/quintenstar/package-spotify"
-        },
 
+        {
+          "title": "Connect to the Spotify API",
+          "name": "spotify",
+          "type": "custom",
+          "page": "spotify_auth.html",
+          "ui_width": 12,
+          "default": {}
+        },
         {
           "title": "Presentation",
           "type": "section"
@@ -86,25 +87,6 @@
           "default": true
         }
       ]
-    },
-
-    {
-      "title": "Authentication",
-      "type": "section"
-    },
-    {
-      "title": "Client ID",
-      "ui_width": 6,
-      "name": "client_id",
-      "type": "string",
-      "default": "See https://developer.spotify.com/dashboard/"
-    },
-    {
-      "title": "Client Secret",
-      "ui_width": 6,
-      "name": "client_secret",
-      "type": "string",
-      "default": "See https://developer.spotify.com/dashboard/"
     }
   ],
   "deferred": ["tile.lua"]

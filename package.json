@@ -3,7 +3,7 @@
   "author": "Quinten Star",
   "desc": "Spotify plugin package to display current song playing. Works standalone and as plugin for the Scheduled Player package.",
   "repository": "https://github.com/quintenstar/package-spotify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "lifecycle": "alpha",
   "platforms": [
     "pi/epoch-1",

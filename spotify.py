@@ -109,7 +109,7 @@ def _playback_state(access_token, market):
 def spotify_data(access_token, market):
     response = _playback_state(access_token, market)
     response.raise_for_status()
-    
+
     return _convert(response.json())
 
 

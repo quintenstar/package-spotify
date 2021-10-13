@@ -1,6 +1,5 @@
 #!/usr/bin/python2.7
 import json
-import sys
 import time
 import traceback
 import functools
@@ -66,15 +65,17 @@ def main():
     print("SPOTIFY: config updated")
 
     poll_cleanup = Poll(cleanup, polling_rate=600)
-
+    print(config.accounts)
     accounts = [
         {
             "account_name": account["account_name"],
-            "refresh_token": account["refresh_token"],
+            "client_id": account["spotify"]["client_id"],
+            "client_secret": account["spotify"]["client_secret"],
+            "refresh_token": account["spotify"]["refresh_token"],
             "access_token": "",
             "market": account["market"],
             "poll_access_token": Poll(
-                refresh_access_token, polling_rate=300, max_polling_rate=900
+                refresh_access_token, polling_rate=900, max_polling_rate=900
             ),
             "poll_spotify_data": Poll(
                 spotify_data, polling_rate=POLL_INTERVAL, max_polling_rate=180
@@ -92,9 +93,17 @@ def main():
             for account in accounts:
                 try:
                     account["access_token"] = account["poll_access_token"](
-                        config.client_id, config.client_secret, account["refresh_token"]
+                        account["client_id"],
+                        account["client_secret"],
+                        account["refresh_token"],
                     )
 
+                    # TDO problem refresh token only 1 time valid
+                    # should immediately save to prevent problems
+                except PollingException:
+                    pass
+
+                try:
                     data[account["account_name"]] = account["poll_spotify_data"](
                         account["access_token"], account["market"]
                     )

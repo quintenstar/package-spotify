@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<!-- <label for="client_id_input">Connect with Spotify Client ID</label> -->
+<div class="input-group">
+  <span class="input-group-btn">
+    <button id="connect" class="btn btn-default"></button>
+  </span>
+  <input type="text" class="form-control" id="client_id_input" placeholder="Insert client id"></input>
+  <input type="text" class="form-control" id="client_secret_input" placeholder="Insert client secret"></input>
+</div>
+<script src="hosted.js"></script>
+<script>
+  "strict";
+  function nonce() {
+    const array = new Uint32Array(32);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, (dec) =>
+      ("0" + dec.toString(16)).substr(-2)
+    ).join("");
+  }
+
+  function sha256(plain) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(plain);
+    return window.crypto.subtle.digest("SHA-256", data);
+  }
+
+  function base64url_encode(str) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+
+  async function pkce_verifier_to_challenge(v) {
+    return base64url_encode(await sha256(v));
+  }
+
+  let btn = document.getElementById("connect");
+
+  function update_btn() {
+    if (ib.config.refresh_token) {
+      btn.innerText = "Connected";
+    } else {
+      btn.innerText = "Connect to Spotify";
+    }
+  }
+
+  let client_id_input = document.getElementById("client_id_input");
+  let client_secret_input = document.getElementById("client_secret_input");
+
+  function update_client_input() {
+    if (ib.config.client_id) {
+      client_id_input.value = ib.config.client_id;
+    }
+    if (ib.config.client_secret) {
+      client_secret_input.value = ib.config.client_secret;
+    }
+  }
+
+  ib.ready.then(function () {
+    ib.setDefaultStyle();
+
+    update_btn();
+    update_client_input();
+
+    console.log("current node config", ib.config);
+
+
+    btn.addEventListener("click", async () => {
+      const client_id = client_id_input.value;
+      const client_secret = client_secret_input.value;
+
+      const redirect_uri = "https://info-beamer.com/oauth/callback";
+
+      const code_verifier = nonce();
+      const code_challenge = await pkce_verifier_to_challenge(
+        code_verifier
+      );
+      const url =
+        "https://accounts.spotify.com/authorize" +
+        "?response_type=code" +
+        `&client_id=${encodeURIComponent(client_id)}` +
+        "&state={STATE}" +
+        `&redirect_uri=${encodeURIComponent(redirect_uri)}` +
+        "&scope=user-read-playback-state user-read-currently-playing" +
+        "&show_dialog=True";
+
+
+      const redirect = new URL(await ib.oauth_redirect(url)).searchParams;
+      const body = new URLSearchParams();
+      body.append("client_id", client_id);
+      body.append("client_secret", client_secret);
+      body.append("grant_type", "authorization_code");
+      body.append("code", redirect.get("code"));
+      body.append("redirect_uri", redirect_uri);
+      // body.append("code_verifier", code_verifier);
+      const token_res = await fetch(
+        "https://accounts.spotify.com/api/token",
+        {
+          method: "POST",
+          body: body,
+        }
+      );
+      const res = await token_res.json();
+      ib.setConfig({ refresh_token: res.refresh_token, client_id: client_id, client_secret: client_secret });
+      update_btn();
+      update_client_input();
+    });
+  });
+</script>
+</body>
+
+</html>

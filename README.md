@@ -17,17 +17,7 @@ Notable features:
 
 - Create a [Spotify developer account and a new app](https://developer.spotify.com/dashboard).
 - Get both the Client ID and Client Secret for the next step.
-- Add `http://localhost:5000/callback` and/or `http://127.0.0.1:5000/callback` to the redirect URIs.
-
-### Run app.py
-
-Create a .env file in the project root folder and fill in the Client ID, Client Secret and [market](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
-
-Run in root project folder and login for each of your Spotify accounts to generate a refresh token.
-
-```console
-python -m flask run
-```
+- Add `https://info-beamer.com/oauth/callback` to the redirect URIs.
 
 ### Info-beamer website
 
@@ -36,8 +26,9 @@ python -m flask run
 
 https://info-beamer.com/package/7583
 
-- Fill in the Client ID, Client secret under authentication in the plugin settings.
 - Add an account, give it a name and set the market and refresh token.
+- Fill in the Client ID, Client secret account settings.
+- Click on the `Connect to Spotify` button and follow the instructions. If succsfull save the config.
 - On a Scheduled Player page add the Spotify Plugin and give it the same name (under the tile options).
 
 ## Settings
@@ -60,7 +51,17 @@ Make sure the `account name` is matching with the general package settings.
 
 When selecting the widget option if you don't tick the `widget use artwork color` option it defaults back to the `background color` option set in the general package settings.
 
+## Known issues
+
+- Currently, will not work nicely on using it simultanously on multiple devices
+- Not yet implemented: Display content when the spotify account is offline or in case of any errors.
+- Not yet implemented: PKCE authentication
+
 ## Changelog
+
+### Version 0.2.0
+
+- Adds connect to spotify button right in the setup config.
 
 ### Version 0.1.0
 
